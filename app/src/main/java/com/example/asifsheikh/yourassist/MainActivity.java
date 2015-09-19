@@ -1,17 +1,24 @@
 package com.example.asifsheikh.yourassist;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.asifsheikh.yourassist.fragments.HomeScreenFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
 
-public class MainActivity extends NavigationDrawer_Activity {
+public class MainActivity extends NavigationDrawer_Activity  implements HomeScreenFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, HomeScreenFragment.newInstance(1))
+                .commit();
     }
 
 
@@ -35,5 +42,10 @@ public class MainActivity extends NavigationDrawer_Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
