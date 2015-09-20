@@ -1,14 +1,25 @@
 package com.example.asifsheikh.yourassist.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.google.android.gms.plus.model.people.Person;
+
+import java.io.InputStream;
 
 /**
  * Created by asifsheikh on 30/8/15.
@@ -24,8 +35,11 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
     private int mIcons[];       // Int Array to store the passed icons resource value from MainActivity.java
 
     private String name;        //String Resource for header View Name
-    private int profile;        //int Resource for header view profile picture
+    private Person.Image profile;        //int Resource for header view profile picture
     private String email;       //String Resource for header view email
+    private Bitmap profile_image;
+
+
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,13 +77,14 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
 
     }
 
-    public Nav_Adapter(String Titles[], int Icons[], String Name, String Email, int Profile){ // MyAdapter Constructor with titles and icons parameter
+    public Nav_Adapter(String Titles[], int Icons[], String Name, String Email, Person.Image Profile){ // MyAdapter Constructor with titles and icons parameter
         // titles, icons, name, email, profile pic are passed from the main activity as we
         mNavTitles = Titles;                //have seen earlier
         mIcons = Icons;
         name = Name;
         email = Email;
         profile = Profile;   //here we assign those passed values to the values we declared here
+        //get_profile_image(profile.getUrl().substring(0,profile.getUrl().length() -2) + "70");
 
     }
 
@@ -111,11 +126,61 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
         }
         else{
 
-            holder.profile.setImageResource(profile);           // Similarly we set the resources for header view
+           // holder.profile.setImageBitmap(profile_image);           // Similarly we set the resources for header view
+            new LoadProfileImage(holder.profile).execute(profile.getUrl().substring(0,profile.getUrl().length() -2) + "70");
             holder.Name.setText(name);
             holder.email.setText(email);
 
+
+
         }
+
+    }
+
+    /**
+     * Background Async task to load user profile picture from url
+     * */
+    private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public LoadProfileImage(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
+    private void get_profile_image(String url){
+        // Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        profile_image = bitmap;
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        //mImageView.setImageResource(R.drawable.image_load_error);
+                    }
+                });
+// Access the RequestQueue through your singleton class.
+        YourAssistApp.getAppInstance().addToRequestQueue(request);
 
     }
 
@@ -136,4 +201,6 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
     private boolean isPositionHeader(int position) {
         return position == 0;
     }
+
+
 }

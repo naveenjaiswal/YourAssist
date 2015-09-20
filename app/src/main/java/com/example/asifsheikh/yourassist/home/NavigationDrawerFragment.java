@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.Nav_Adapter;
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.google.android.gms.plus.model.people.Person;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -66,6 +68,7 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private Person currentPerson;
 
     //First We Declare Titles And Icons For Our Navigation Drawer List View
     //This Icons And Titles Are holded in an Array as you can see
@@ -76,9 +79,9 @@ public class NavigationDrawerFragment extends Fragment {
     //Similarly we Create a String Resource for the name and email in the header view
     //And we also create a int resource for profile picture in the header view
 
-    String NAME = "Aasif Sheikh";
-    String EMAIL = "sheikhaasif01@gmail.com";
-    int PROFILE = R.drawable.asif;
+    String NAME;// = "Aasif Sheikh";
+    String EMAIL;// = "sheikhaasif01@gmail.com";
+    int PROFILE;// = R.drawable.asif;
 
     public NavigationDrawerFragment() {
     }
@@ -91,6 +94,7 @@ public class NavigationDrawerFragment extends Fragment {
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
+        currentPerson = YourAssistApp.getAppInstance().getCurrentPerson();
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -147,7 +151,7 @@ public class NavigationDrawerFragment extends Fragment {
         });*/
         mDrawerRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
-        mAdapter = new Nav_Adapter(TITLES,ICONS,NAME,EMAIL,PROFILE);       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+        mAdapter = new Nav_Adapter(TITLES,ICONS,currentPerson.getDisplayName(),YourAssistApp.getAppInstance().getEmail(),currentPerson.getImage());       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
         // And passing the titles,icons,header view name, header view email,
         // and header view profile picture
 

@@ -1,5 +1,6 @@
 package com.example.asifsheikh.yourassist.login;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.MainActivity;
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
@@ -30,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "LoginActivity";
+
+
 
     /* RequestCode for resolutions involving sign-in */
     private static final int RC_SIGN_IN = 9001;
@@ -77,14 +81,16 @@ public class LoginActivity extends AppCompatActivity implements
         // Set up view instances
         mStatus = (TextView) findViewById(R.id.status);
 
-        // [START create_google_api_client]
-        // Build GoogleApiClient with access to basic profile
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
                 .addScope(new Scope(Scopes.PROFILE))
                 .build();
+
+        YourAssistApp.getAppInstance().setmGoogleApiClient(mGoogleApiClient);
+
+
         // [END create_google_api_client]
     }
 
@@ -92,6 +98,8 @@ public class LoginActivity extends AppCompatActivity implements
         if (isSignedIn) {
             // Show signed-in user's name
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            YourAssistApp.getAppInstance().setCurrentPerson(Plus.PeopleApi.getCurrentPerson(mGoogleApiClient));
+            YourAssistApp.getAppInstance().setEmail(Plus.AccountApi.getAccountName(mGoogleApiClient));
             if (currentPerson != null) {
                 String name = currentPerson.getDisplayName();
                 mStatus.setText(getString(R.string.signed_in_fmt, name));
@@ -103,11 +111,12 @@ public class LoginActivity extends AppCompatActivity implements
             // Set button visibility
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-              //  Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             //EditText editText = (EditText) findViewById(R.id.edit_message);
             //String message = editText.getText().toString();
             //intent.putExtra(EXTRA_MESSAGE, message);
-            //startActivity(intent);
+            finish();
+            startActivity(intent);
         } else {
             // Show signed-out message
             mStatus.setText(R.string.signed_out);
@@ -129,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        mGoogleApiClient.disconnect();
+       mGoogleApiClient.disconnect();
     }
     // [END on_start_on_stop]
 

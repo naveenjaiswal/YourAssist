@@ -6,15 +6,23 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.fragments.HomeScreenFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 
 public class MainActivity extends NavigationDrawer_Activity  implements HomeScreenFragment.OnFragmentInteractionListener{
+
+    /* Client for accessing Google APIs */
+    private GoogleApiClient mGoogleApiClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
+        mGoogleApiClient = YourAssistApp.getAppInstance().getmGoogleApiClient();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, HomeScreenFragment.newInstance(1))
@@ -25,7 +33,7 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
+       getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -38,6 +46,11 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if (mGoogleApiClient.isConnected()) {
+                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
+                mGoogleApiClient.disconnect();
+            }
             return true;
         }
 
