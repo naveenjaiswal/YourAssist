@@ -1,14 +1,43 @@
-<android:android.support.v7.widget.RecyclerView
-    tools:context="com.example.asifsheikh.yourassist.home.NavigationDrawerFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/CardRecyclerView"
-    android:background="@color/white"
-    android:choiceMode="singleChoice"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    layout_height="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-</android:android.support.v7.widget.RecyclerView>
+    android:layout_height="match_parent">
+
+    <android:android.support.v7.widget.RecyclerView
+        tools:context="com.example.asifsheikh.yourassist.home.NavigationDrawerFragment"
+        layout_width="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/CardRecyclerView"
+        android:background="@color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android:android.support.v7.widget.RecyclerView>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        fab:fab_type="normal"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_add_white_24dp"
+        fab:fab_colorNormal="@color/accent_color"
+        fab:fab_colorPressed="@color/accent_color_dark"
+        fab:fab_colorRipple="@color/accent_color"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp" />
+
+</RelativeLayout>
+
+
+
+

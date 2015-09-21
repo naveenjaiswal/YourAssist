@@ -1,17 +1,24 @@
 package com.example.asifsheikh.yourassist.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.Card_Adapter;
 import com.example.asifsheikh.yourassist.R;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,8 +31,11 @@ import com.example.asifsheikh.yourassist.R;
 public class HomeScreenFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
+    Context thiscontext;
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;
+    FloatingActionButton fab;
+    private RelativeLayout HomeScreenLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -67,7 +77,18 @@ public class HomeScreenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.activity_main, container, false);
+        thiscontext = container.getContext();
+        HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
+        mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
+        fab = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.fab);
+        fab.attachToRecyclerView(mRecyclerView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(thiscontext, "this is my Toast message!!! =)",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
         /*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -86,7 +107,7 @@ public class HomeScreenFragment extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
 
-        return mRecyclerView;
+        return HomeScreenLayout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
