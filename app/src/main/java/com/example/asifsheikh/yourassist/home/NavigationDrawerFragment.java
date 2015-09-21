@@ -73,8 +73,8 @@ public class NavigationDrawerFragment extends Fragment {
     //First We Declare Titles And Icons For Our Navigation Drawer List View
     //This Icons And Titles Are holded in an Array as you can see
 
-    String TITLES[] = {"Home","Events","New Task","exit"};
-    int ICONS[] = {R.drawable.ic_home,R.drawable.ic_home,R.drawable.ic_action,R.drawable.ic_action};
+    String TITLES[] = {"Home","New Task","logout"};
+    int ICONS[] = {R.drawable.ic_home,R.drawable.ic_action,R.drawable.ic_exit_to_app_black_24dp};
 
     //Similarly we Create a String Resource for the name and email in the header view
     //And we also create a int resource for profile picture in the header view
