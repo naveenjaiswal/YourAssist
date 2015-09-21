@@ -118,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements
             //intent.putExtra(EXTRA_MESSAGE, message);
             //startActivity(intent);
             //this.finish();
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -133,6 +134,7 @@ public class LoginActivity extends AppCompatActivity implements
             mStatus.setText("");
 
             // Set button visibility
+            findViewById(R.id.rl_signIn).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_in_button).setEnabled(true);
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
