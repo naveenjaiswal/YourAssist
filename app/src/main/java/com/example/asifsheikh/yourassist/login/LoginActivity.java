@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -108,18 +109,28 @@ public class LoginActivity extends AppCompatActivity implements
                 mStatus.setText(getString(R.string.signed_in_err));
             }
 
-            // Set button visibility
+            /*// Set button visibility
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Intent intent = new Intent(this, MainActivity.class);
+            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);*/
+            //Intent intent = new Intent(this, MainActivity.class);
             //EditText editText = (EditText) findViewById(R.id.edit_message);
             //String message = editText.getText().toString();
             //intent.putExtra(EXTRA_MESSAGE, message);
-            finish();
-            startActivity(intent);
+            //startActivity(intent);
+            //this.finish();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                /* Create an Intent that will start the Menu-Activity. */
+                    Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    LoginActivity.this.startActivity(mainIntent);
+                    LoginActivity.this.finish();
+                }
+            }, 1000);
+
         } else {
             // Show signed-out message
-            mStatus.setText(R.string.signed_out);
+            mStatus.setText("");
 
             // Set button visibility
             findViewById(R.id.sign_in_button).setEnabled(true);

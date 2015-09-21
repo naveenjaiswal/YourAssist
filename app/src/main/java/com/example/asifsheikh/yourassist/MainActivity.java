@@ -33,7 +33,7 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       getMenuInflater().inflate(R.menu.menu_main, menu);
+       getMenuInflater().inflate(R.menu.navigation_drawer_, menu);
         return true;
     }
 
@@ -45,14 +45,14 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
             if (mGoogleApiClient.isConnected()) {
                 Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
                 Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
                 mGoogleApiClient.disconnect();
             }
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
