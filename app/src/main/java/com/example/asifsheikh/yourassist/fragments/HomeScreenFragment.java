@@ -18,7 +18,8 @@ import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.Card_Adapter;
 import com.example.asifsheikh.yourassist.R;
-import com.melnykov.fab.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +35,7 @@ public class HomeScreenFragment extends Fragment {
     Context thiscontext;
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;
-    FloatingActionButton fab;
+
     private RelativeLayout HomeScreenLayout;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -80,15 +81,8 @@ public class HomeScreenFragment extends Fragment {
         thiscontext = container.getContext();
         HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
         mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
-        fab = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.fab);
-        fab.attachToRecyclerView(mRecyclerView);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(thiscontext, "this is my Toast message!!! =)",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
+
         /*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

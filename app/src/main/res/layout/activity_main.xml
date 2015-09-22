@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent">
 
     <android:android.support.v7.widget.RecyclerView
@@ -9,7 +10,7 @@
         layout_width="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/CardRecyclerView"
-        android:background="@color/white"
+        android:background="#BDBDBD"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
@@ -18,23 +19,52 @@
         android:layout_height="wrap_content">
     </android:android.support.v7.widget.RecyclerView>
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:elevation="10dp"
-        fab:fab_type="normal"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_add_white_24dp"
-        fab:fab_colorNormal="@color/accent_color"
-        fab:fab_colorPressed="@color/accent_color_dark"
-        fab:fab_colorRipple="@color/accent_color"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp" />
+        fab:fab_addButtonColorNormal="@color/pink"
+        fab:fab_addButtonColorPressed="@color/pink_pressed"
+        fab:fab_addButtonPlusIconColor="@color/white"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="@string/general_task"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="@string/project_task"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="@string/list_task"
+            fab:fab_colorPressed="@color/white_pressed"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <include
+        android:id="@+id/fab_background_"
+        android:visibility = "gone"
+        layout="@layout/fab_background_layer" />
+
 
 </RelativeLayout>
 
