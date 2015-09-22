@@ -10,7 +10,7 @@
         layout_width="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/CardRecyclerView"
-        android:background="#BDBDBD"
+        android:background="@drawable/notasktodo"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"

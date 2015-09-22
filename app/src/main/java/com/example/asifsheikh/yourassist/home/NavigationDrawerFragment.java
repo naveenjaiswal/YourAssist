@@ -74,7 +74,7 @@ public class NavigationDrawerFragment extends Fragment {
     //This Icons And Titles Are holded in an Array as you can see
 
     String TITLES[] = {"Home","Add Task","Settings","Help","About us","logout"};
-    int ICONS[] = {R.drawable.ic_home,R.drawable.ic_action_new,R.drawable.ic_settings_black_24dp,R.drawable.ic_action_help,R.drawable.ic_action_help,R.drawable.ic_exit_to_app_black_24dp};
+    int ICONS[] = {R.drawable.ic_home,R.drawable.ic_action_new,R.drawable.ic_settings_black_24dp,R.drawable.ic_action_help,R.drawable.info,R.drawable.ic_exit_to_app_black_24dp};
 
     //Similarly we Create a String Resource for the name and email in the header view
     //And we also create a int resource for profile picture in the header view

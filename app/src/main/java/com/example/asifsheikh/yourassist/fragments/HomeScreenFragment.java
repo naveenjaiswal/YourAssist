@@ -2,6 +2,7 @@ package com.example.asifsheikh.yourassist.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,8 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.Card_Adapter;
+import com.example.asifsheikh.yourassist.AddTaskActivity;
+import com.example.asifsheikh.yourassist.MainActivity;
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
+import static com.example.asifsheikh.yourassist.fragments.RecyclerItemClickListener.*;
 
 
 /**
@@ -81,7 +88,29 @@ public class HomeScreenFragment extends Fragment {
         thiscontext = container.getContext();
         HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
         mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // TODO Handle item click
+                        Toast.makeText(getContext(), "this is my Toast message!!! =)",
+                                Toast.LENGTH_LONG).show();
+                    }
+                })
+        );
+
+
+
         final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
+        final FloatingActionButton actionA = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_a);
+        actionA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainIntent = new Intent(getContext(), AddTaskActivity.class);
+                getContext().startActivity(mainIntent);
+            }
+        });
 
         /*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,8 +121,6 @@ public class HomeScreenFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
         mAdapter = new Card_Adapter();      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-        // And passing the titles,icons,header view name, header view email,
-        // and header view profile picture
 
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
 

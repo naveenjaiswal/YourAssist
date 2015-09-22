@@ -96,6 +96,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
 
             ViewHolder vhItem = new ViewHolder(v,viewType); //Creating ViewHolder and passing the object of type view
 
+
             return vhItem; // Returning the created object
 
             //inflate your layout and pass it to view holder
@@ -105,6 +106,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header,parent,false); //Inflating the layout
 
             ViewHolder vhHeader = new ViewHolder(v,viewType); //Creating ViewHolder and passing the object of type view
+
 
             return vhHeader; //returning the object created
 

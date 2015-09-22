@@ -1,23 +1,20 @@
 package com.example.asifsheikh.yourassist;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.fragments.AddTaskFragment;
-import com.example.asifsheikh.yourassist.fragments.HomeScreenFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
 
 /**
  * Created by Admin on 9/22/2015.
  */
-public class AddTakActivity extends NavigationDrawer_Activity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class AddTaskActivity extends NavigationDrawer_Activity implements  AddTaskFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +29,7 @@ public class AddTakActivity extends NavigationDrawer_Activity implements TimePic
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.navigation_drawer_, menu);
+       getMenuInflater().inflate(R.menu.add_task, menu);
         return true;
     }
 
@@ -44,26 +41,32 @@ public class AddTakActivity extends NavigationDrawer_Activity implements TimePic
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_settings) {
-            if (mGoogleApiClient.isConnected()) {
-                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
-                mGoogleApiClient.disconnect();
-            }
-            return true;
-        }*/
+        if (id == R.id.action_done) {
+            AddTaskFragment articleFrag = (AddTaskFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.add_task_fragment);
+            Toast.makeText(getApplicationContext(), "Creating task",
+                    Toast.LENGTH_LONG).show();
 
+            if (articleFrag != null) {
+                // If article frag is available, we're in two-pane layout...
+
+                // Call a method in the ArticleFragment to update its content
+                //articleFrag.date_picker();
+
+
+
+            }
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
 
+
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    public void onFragmentInteraction(Uri uri) {
 
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-    }
 }
