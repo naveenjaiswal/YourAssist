@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.fragments.HomeScreenFragment;
@@ -22,7 +23,9 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-        mGoogleApiClient = YourAssistApp.getAppInstance().getmGoogleApiClient();
+
+        Toast.makeText(getApplicationContext(),"Welcome " +  YourAssistApp.getAppInstance().getCurrentPerson().getDisplayName(),
+                Toast.LENGTH_LONG).show();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, HomeScreenFragment.newInstance(1))
