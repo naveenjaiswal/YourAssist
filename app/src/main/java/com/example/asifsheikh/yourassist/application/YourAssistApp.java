@@ -59,24 +59,17 @@ public class YourAssistApp extends Application {
 
     }
 
-    public YourAssistApp()
+    private YourAssistApp()
     {
-        // Constructor hidden because this is a singleton
-        // [START create_google_api_client]
-        // Build GoogleApiClient with access to basic profile
-        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Plus.API)
-                .addScope(new Scope(Scopes.PROFILE))
-                .build();*/
-        // [END create_google_api_client]
+
     }
 
     public GoogleApiClient getmGoogleApiClient(){
-        return mGoogleApiClient;
+        return this.mGoogleApiClient;
     }
 
     public  void  setmGoogleApiClient(GoogleApiClient mGoogleApiClient) {
-        mGoogleApiClient = mGoogleApiClient;
+        this.mGoogleApiClient = mGoogleApiClient;
     }
 
     public RequestQueue getRequestQueue() {
