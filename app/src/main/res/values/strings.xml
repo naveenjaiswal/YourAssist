@@ -21,6 +21,11 @@
     <string name="project_task">Project Task</string>
     <string name="list_task">List Task</string>
 
+
+    <string name="file_note">File note</string>
+    <string name="simple_note">Simple Note</string>
+    <string name="picture_note">Picture Note</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

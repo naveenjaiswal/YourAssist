@@ -1,6 +1,7 @@
 package com.example.asifsheikh.yourassist.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.asifsheikh.yourassist.AddTaskActivity;
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.TaskHomeActivity;
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.model.Task;
 import com.google.android.gms.plus.model.people.Person;
@@ -23,6 +26,7 @@ import java.util.List;
 public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> {
 
     List<Task> task_list;
+    Task new_task;
     Context mContext;
 
 
@@ -32,11 +36,13 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
         TextView task_header;
         TextView task_desp;
         ImageView task_icon;
+        Task mtask;
         Context contxt;
 
-        public ViewHolder(View itemView,Context c) {
+        public ViewHolder(View itemView,Context c, Task task) {
             super(itemView);
             contxt = c;
+            mtask = task;
             cv = (CardView)itemView.findViewById(R.id.cv);
             task_header = (TextView)itemView.findViewById(R.id.tv_task_header);
             task_desp = (TextView)itemView.findViewById(R.id.tv_task_despcription);
@@ -46,6 +52,10 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
+
+            Intent mainIntent = new Intent(contxt, TaskHomeActivity.class);
+            mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS,mtask.getTask_name());
+            contxt.startActivity(mainIntent);
 
         }
     }
@@ -65,7 +75,7 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
     public Card_Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_item_row,parent,false); //Inflating the layout
 
-        ViewHolder vhItem = new ViewHolder(v,mContext); //Creating ViewHolder and passing the object of type view
+        ViewHolder vhItem = new ViewHolder(v,mContext,new_task); //Creating ViewHolder and passing the object of type view
 
 
         return vhItem; // Returning the created object
@@ -76,7 +86,7 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
     public void onBindViewHolder(Card_Adapter.ViewHolder holder, int position) {
         Log.d(" " + task_list.size() ,"task list size");
         Task current = task_list.get(position);
-
+        new_task = current;
         Log.d(" " + current.getTask_name() + " " + current.getTask_description() ,"task description");
         holder.task_header.setText(current.getTask_name());
         holder.task_desp.setText(current.getTask_description());

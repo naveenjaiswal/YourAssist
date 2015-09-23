@@ -28,14 +28,15 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="70sp"
-                android:layout_height="70sp"
+                android:layout_width="60sp"
+                android:layout_height="60sp"
                 android:id="@+id/taskIcon"
                 android:src="@drawable/general_task"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="0dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="0dp" />
+                android:layout_toRightOf="@+id/linearLayout2"
+                android:layout_toEndOf="@+id/linearLayout2"
+                android:layout_marginLeft="23dp"
+                android:layout_marginStart="23dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,13 +47,9 @@
                 android:text="Task Header"
                 android:id="@+id/tv_task_header"
                 android:textColor="@android:color/black"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="50dp"
+                android:textSize="32sp"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/rowIcon"
-                android:layout_toEndOf="@+id/rowIcon"
-                android:layout_marginTop="8dp"
-                android:textSize="24sp" />
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,10 +58,9 @@
                 android:text="Task Description"
                 android:id="@+id/tv_task_despcription"
                 android:paddingLeft="50dp"
+                android:textSize="12sp"
                 android:layout_below="@+id/tv_task_header"
-                android:layout_alignLeft="@+id/tv_task_header"
-                android:layout_alignStart="@+id/tv_task_header"
-                android:textSize="12sp" />
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,9 +68,20 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="100 % complete"
                 android:id="@+id/tv_percentage"
+                android:layout_marginTop="24dp"
                 android:layout_below="@+id/taskIcon"
-                android:layout_marginTop="2dp"
-                android:layout_toRightOf="@+id/linearLayout2" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Pending Sub Tasks : 0/0"
+                android:id="@+id/tv_pending_count"
+                android:layout_alignBottom="@+id/tv_percentage"
+                android:layout_toRightOf="@+id/linearLayout2"
+                android:layout_toEndOf="@+id/linearLayout2" />
 
             <!--<LinearLayout
                 android:layout_width="match_parent"
