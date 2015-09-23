@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements
         // Set up view instances
         mStatus = (TextView) findViewById(R.id.status);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)

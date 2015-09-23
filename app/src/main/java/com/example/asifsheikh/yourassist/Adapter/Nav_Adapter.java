@@ -1,6 +1,7 @@
 package com.example.asifsheikh.yourassist.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,13 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.example.asifsheikh.yourassist.AboutActivity;
+import com.example.asifsheikh.yourassist.AddTaskActivity;
+import com.example.asifsheikh.yourassist.HelpActivity;
+import com.example.asifsheikh.yourassist.MainActivity;
 import com.example.asifsheikh.yourassist.R;
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
 import java.io.InputStream;
@@ -42,7 +50,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
 
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         int Holderid;
 
         TextView textView;
@@ -50,18 +58,21 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
         ImageView profile;
         TextView Name;
         TextView email;
+        Context contxt;
 
 
-        public ViewHolder(View itemView,int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
+        public ViewHolder(View itemView,int ViewType,Context c) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
             super(itemView);
-
+            contxt = c;
 
             // Here we set the appropriate view in accordance with the the view type as passed when the holder object is created
 
             if(ViewType == TYPE_ITEM) {
                 textView = (TextView) itemView.findViewById(R.id.rowText); // Creating TextView object with the id of textView from item_row.xml
                 imageView = (ImageView) itemView.findViewById(R.id.rowIcon);// Creating ImageView object with the id of ImageView from item_row.xml
-                Holderid = 1;                                               // setting holder id as 1 as the object being populated are of type item row
+                Holderid = 1;
+                itemView.setClickable(true);
+                itemView.setOnClickListener(this);// setting holder id as 1 as the object being populated are of type item row
             }
             else{
 
@@ -70,17 +81,59 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
                 email = (TextView) itemView.findViewById(R.id.email);       // Creating Text View object from header.xml for email
                 profile = (ImageView) itemView.findViewById(R.id.circleView);// Creating Image view object from header.xml for profile pic
                 //itemView.setBackground();
+                itemView.setClickable(false);
+                //itemView.setOnClickListener(this);
                 Holderid = 0;
             }
+
+
         }
 
+        @Override
+        public void onClick(View v) {
+            if(getPosition() == 1){
+                Intent mainIntent = new Intent(contxt, MainActivity.class);
+                contxt.startActivity(mainIntent);
+            }
+            if(getPosition() == 2){
+                /*String TITLES[] = {"Genreal Task","Project Task","List Task"};
+                int ICONS[] = {R.drawable.general_task,R.drawable.project_task,R.drawable.list_task};*/
+                Intent mainIntent = new Intent(contxt, AddTaskActivity.class);
+                contxt.startActivity(mainIntent);
 
+
+            }
+            if(getPosition() == 4){
+                Intent mainIntent = new Intent(contxt, HelpActivity.class);
+                contxt.startActivity(mainIntent);
+
+            }
+
+            if(getPosition() == 5){
+                Intent mainIntent = new Intent(contxt, AboutActivity.class);
+                contxt.startActivity(mainIntent);
+            }
+            if(getPosition() == 6){
+                if(YourAssistApp.getAppInstance().getmGoogleApiClient().isConnected())
+                {
+                    Plus.AccountApi.clearDefaultAccount(YourAssistApp.getAppInstance().getmGoogleApiClient());
+                    Plus.AccountApi.revokeAccessAndDisconnect(YourAssistApp.getAppInstance().getmGoogleApiClient());
+                    YourAssistApp.getAppInstance().getmGoogleApiClient().disconnect();
+
+                }
+            }
+            else{
+                Toast.makeText(contxt,"The Item Clicked is: "+getPosition(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 
-    public Nav_Adapter(String Titles[], int Icons[], String Name, String Email, Person.Image Profile){ // MyAdapter Constructor with titles and icons parameter
+    public Nav_Adapter(String Titles[], int Icons[], String Name, String Email, Person.Image Profile,Context passedContext){ // MyAdapter Constructor with titles and icons parameter
         // titles, icons, name, email, profile pic are passed from the main activity as we
         mNavTitles = Titles;                //have seen earlier
         mIcons = Icons;
+        this.mContext = passedContext;
         name = Name;
         email = Email;
         profile = Profile;   //here we assign those passed values to the values we declared here
@@ -94,7 +147,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
         if (viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_item_row,parent,false); //Inflating the layout
 
-            ViewHolder vhItem = new ViewHolder(v,viewType); //Creating ViewHolder and passing the object of type view
+            ViewHolder vhItem = new ViewHolder(v,viewType,mContext); //Creating ViewHolder and passing the object of type view
 
 
             return vhItem; // Returning the created object
@@ -105,7 +158,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
 
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header,parent,false); //Inflating the layout
 
-            ViewHolder vhHeader = new ViewHolder(v,viewType); //Creating ViewHolder and passing the object of type view
+            ViewHolder vhHeader = new ViewHolder(v,viewType,mContext); //Creating ViewHolder and passing the object of type view
 
 
             return vhHeader; //returning the object created
@@ -125,6 +178,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
             // position by 1 and pass it to the holder while setting the text and image
             holder.textView.setText(mNavTitles[position - 1]); // Setting the Text with the array of our Titles
             holder.imageView.setImageResource(mIcons[position -1]);// Settimg the image with array of our icons
+
         }
         else{
 

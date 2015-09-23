@@ -104,11 +104,17 @@ public class HomeScreenFragment extends Fragment {
 
         final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
         final FloatingActionButton actionA = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_a);
+        final FloatingActionButton actionB = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_b);
+        final FloatingActionButton actionC = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_c);
+        actionA.setIcon(R.drawable.general_task);
+        actionB.setIcon(R.drawable.project_task);
+        actionC.setIcon(R.drawable.list_task);
         actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent mainIntent = new Intent(getContext(), AddTaskActivity.class);
                 getContext().startActivity(mainIntent);
+                menuMultipleActions.collapse();
             }
         });
 

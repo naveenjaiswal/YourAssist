@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="178dp"
-    android:background="@drawable/nav_image"
+    android:background="@drawable/nav_nexus"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -41,7 +41,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/icon_person"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="38dp"
             android:id="@+id/circleView"

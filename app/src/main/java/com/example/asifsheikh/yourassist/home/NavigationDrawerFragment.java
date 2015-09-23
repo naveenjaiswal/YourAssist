@@ -73,7 +73,7 @@ public class NavigationDrawerFragment extends Fragment {
     //First We Declare Titles And Icons For Our Navigation Drawer List View
     //This Icons And Titles Are holded in an Array as you can see
 
-    String TITLES[] = {"Home","Add Task","Settings","Help","About us","logout"};
+    String TITLES[] = {"Home","Add Task","Settings","Help","About","logout"};
     int ICONS[] = {R.drawable.ic_home,R.drawable.ic_action_new,R.drawable.ic_settings_black_24dp,R.drawable.ic_action_help,R.drawable.info,R.drawable.ic_exit_to_app_black_24dp};
 
     //Similarly we Create a String Resource for the name and email in the header view
@@ -143,17 +143,9 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         mDrawerRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        /*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });*/
         mDrawerRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
-        mAdapter = new Nav_Adapter(TITLES,ICONS,currentPerson.getDisplayName(),YourAssistApp.getAppInstance().getEmail(),currentPerson.getImage());       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-        // And passing the titles,icons,header view name, header view email,
-        // and header view profile picture
+        mAdapter = new Nav_Adapter(TITLES,ICONS,currentPerson.getDisplayName(),YourAssistApp.getAppInstance().getEmail(),currentPerson.getImage(),getContext());       // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
 
         mDrawerRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
 
