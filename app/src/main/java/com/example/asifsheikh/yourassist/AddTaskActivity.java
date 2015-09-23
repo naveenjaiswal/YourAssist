@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.fragments.AddTaskFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
 import com.example.asifsheikh.yourassist.model.Task;
@@ -57,7 +58,7 @@ public class AddTaskActivity extends NavigationDrawer_Activity implements  AddTa
                 //articleFrag.date_picker();
 
                 new_task = articleFrag.get_task();
-
+                YourAssistApp.getAppInstance().getMyList().add(new_task);
                 Log.d(new_task.getTask_name() + " " + new_task.getTask_description(),"new Task desription" );
                 Toast.makeText(getApplicationContext(), "Creating task",
                         Toast.LENGTH_LONG).show();

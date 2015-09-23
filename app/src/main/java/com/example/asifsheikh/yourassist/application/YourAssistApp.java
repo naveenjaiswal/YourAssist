@@ -5,11 +5,15 @@ import android.app.Application;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.asifsheikh.yourassist.model.Task;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Admin on 9/20/2015.
@@ -19,6 +23,8 @@ public class YourAssistApp extends Application {
     /* Singleton Object */
     private static YourAssistApp mYourAssistApp;
     private RequestQueue mRequestQueue;
+
+    List<Task> myList = new ArrayList<Task>();
 
 
 
@@ -86,5 +92,15 @@ public class YourAssistApp extends Application {
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
+
+
+    public List<Task> getMyList() {
+        return myList;
+    }
+
+    public void setMyList(List<Task> myList) {
+        this.myList = myList;
+    }
+
 
 }
