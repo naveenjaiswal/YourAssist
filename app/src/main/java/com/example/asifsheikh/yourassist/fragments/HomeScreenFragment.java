@@ -104,11 +104,17 @@ public class HomeScreenFragment extends Fragment {
 
         final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
         final FloatingActionButton actionA = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_a);
+        final FloatingActionButton actionB = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_b);
+        final FloatingActionButton actionC = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_c);
+        actionA.setIcon(R.drawable.general_task);
+        actionB.setIcon(R.drawable.project_task);
+        actionC.setIcon(R.drawable.list_task);
         actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent mainIntent = new Intent(getContext(), AddTaskActivity.class);
                 getContext().startActivity(mainIntent);
+                menuMultipleActions.collapse();
             }
         });
 
@@ -120,10 +126,8 @@ public class HomeScreenFragment extends Fragment {
         });*/
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
-        mAdapter = new Card_Adapter();      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-
+        mAdapter = new Card_Adapter(YourAssistApp.getAppInstance().getMyList(),getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
-
         mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
 
         mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager

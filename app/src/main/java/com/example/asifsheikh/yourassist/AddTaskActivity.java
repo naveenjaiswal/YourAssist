@@ -4,17 +4,22 @@ package com.example.asifsheikh.yourassist;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.fragments.AddTaskFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
+import com.example.asifsheikh.yourassist.model.Task;
 
 /**
  * Created by Admin on 9/22/2015.
  */
 public class AddTaskActivity extends NavigationDrawer_Activity implements  AddTaskFragment.OnFragmentInteractionListener {
+
+    private Task new_task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +48,8 @@ public class AddTaskActivity extends NavigationDrawer_Activity implements  AddTa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_done) {
             AddTaskFragment articleFrag = (AddTaskFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.add_task_fragment);
-            Toast.makeText(getApplicationContext(), "Creating task",
-                    Toast.LENGTH_LONG).show();
+                    getSupportFragmentManager().findFragmentById(R.id.container);
+
 
             if (articleFrag != null) {
                 // If article frag is available, we're in two-pane layout...
@@ -53,8 +57,12 @@ public class AddTaskActivity extends NavigationDrawer_Activity implements  AddTa
                 // Call a method in the ArticleFragment to update its content
                 //articleFrag.date_picker();
 
-
-
+                new_task = articleFrag.get_task();
+                YourAssistApp.getAppInstance().getMyList().add(new_task);
+                Log.d(new_task.getTask_name() + " " + new_task.getTask_description(),"new Task desription" );
+                Toast.makeText(getApplicationContext(), "Creating task",
+                        Toast.LENGTH_LONG).show();
+                super.onBackPressed();
             }
 
             return true;

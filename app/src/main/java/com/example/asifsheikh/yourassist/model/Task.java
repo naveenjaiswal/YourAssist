@@ -9,9 +9,22 @@ public class Task {
 
     private String task_name;
     private String task_description;
-    private int priority;
+    private String priority;
     private Date start_date;
     private Date due_date;
+
+    public Task(){
+
+
+    }
+
+    public Task( String mtaskname,String mtask_desp,String mpriority,Date mstartdate, Date mduedate){
+        this.task_name = mtaskname;
+        this.task_description = mtask_desp;
+        this.priority = mpriority;
+        this.due_date = mduedate;
+        this.start_date = mstartdate;
+    }
 
 
     public String getTask_name() {
@@ -30,11 +43,11 @@ public class Task {
         this.task_description = task_description;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

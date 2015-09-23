@@ -16,11 +16,16 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.model.Task;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Admin on 9/22/2015.
@@ -31,7 +36,12 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
     private RelativeLayout AddTakLayout;
     ImageView date_picker_image;
     EditText dateTextView;
+    private EditText ed_task_name;
+    private EditText ed_task_desp;
+    private EditText ed_due_date;
+    private Spinner prority_spinner;
     private String[] arraySpinner;
+
     private OnFragmentInteractionListener mListener;
 
 
@@ -57,6 +67,10 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
                              Bundle savedInstanceState) {
         thiscontext = container.getContext();
         AddTakLayout = (RelativeLayout) inflater.inflate(R.layout.activity_add_task, container, false);
+        ed_task_name = (EditText) AddTakLayout.findViewById(R.id.ed_task_name);
+        ed_task_desp = (EditText) AddTakLayout.findViewById(R.id.task_description);
+        ed_due_date = (EditText) AddTakLayout.findViewById(R.id.date_textview);
+        prority_spinner = (Spinner) AddTakLayout.findViewById(R.id.spinner_priority);
         date_picker_image = (ImageView) AddTakLayout.findViewById(R.id.iv_datepicker);
         dateTextView = (EditText) AddTakLayout.findViewById(R.id.date_textview);
         this.arraySpinner = new String[] {
@@ -126,6 +140,25 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
         String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
         dateTextView.setText(date);
+    }
+
+    public Task get_task(){
+        Task new_task = new Task();
+        new_task.setTask_name(ed_task_name.getText().toString());
+        new_task.setTask_description(ed_task_desp.getText().toString());
+        String startDateString = ed_due_date.getText().toString();
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        Date startDate;
+        try {
+            startDate = df.parse(startDateString);
+            /*String newDateString = df.format(startDate);
+            System.out.println(newDateString);*/
+            new_task.setDue_date(startDate);
+        }  catch (ParseException e) {
+            e.printStackTrace();
+        }
+        new_task.setPriority(prority_spinner.getSelectedItem().toString());
+        return new_task;
     }
 
     @Override
