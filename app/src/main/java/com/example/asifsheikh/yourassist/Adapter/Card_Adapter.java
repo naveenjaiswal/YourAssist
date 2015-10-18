@@ -54,7 +54,7 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
         public void onClick(View v) {
 
             Intent mainIntent = new Intent(contxt, TaskHomeActivity.class);
-            mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS,mtask.getTask_name());
+            mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS,"Shopping");
             contxt.startActivity(mainIntent);
 
         }
@@ -65,7 +65,7 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
         // titles, icons, name, email, profile pic are passed from the main activity as we
 
         this.mContext = passedContext;
-       this.task_list = YourAssistApp.getAppInstance().getMyList();
+       this.task_list = task_list;
 
 
     }

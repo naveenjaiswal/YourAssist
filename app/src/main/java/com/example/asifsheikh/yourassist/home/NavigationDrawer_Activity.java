@@ -53,7 +53,7 @@ public class NavigationDrawer_Activity extends AppCompatActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         Drawer = (DrawerLayout) findViewById(R.id.drawer_layout);        // Drawer object Assigned to the view
         Drawer.closeDrawer(Gravity.LEFT);
-
+        //Drawer.closeDrawers(mNavigationDrawerFragment);
         mDrawerToggle = new ActionBarDrawerToggle(this,Drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close){
 
             @Override

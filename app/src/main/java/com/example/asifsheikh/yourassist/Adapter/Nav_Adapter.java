@@ -92,8 +92,10 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             if(getPosition() == 1){
-                Intent mainIntent = new Intent(contxt, MainActivity.class);
-                contxt.startActivity(mainIntent);
+                if(!(contxt instanceof MainActivity)) {
+                    Intent mainIntent = new Intent(contxt, MainActivity.class);
+                    contxt.startActivity(mainIntent);
+                }
             }
             if(getPosition() == 2){
                 /*String TITLES[] = {"Genreal Task","Project Task","List Task"};
@@ -123,7 +125,7 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
                 }
             }
             else{
-                Toast.makeText(contxt,"The Item Clicked is: "+getPosition(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(contxt,"The Item Clicked is: "+getPosition(), Toast.LENGTH_SHORT).show();
             }
 
         }

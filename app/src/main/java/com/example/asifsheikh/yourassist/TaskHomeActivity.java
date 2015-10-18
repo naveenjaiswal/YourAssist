@@ -1,17 +1,19 @@
 package com.example.asifsheikh.yourassist;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.asifsheikh.yourassist.fragments.AddTaskFragment;
 import com.example.asifsheikh.yourassist.fragments.TaskHomeFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
 
 /**
  * Created by Admin on 9/23/2015.
  */
-public class TaskHomeActivity extends NavigationDrawer_Activity {
+public class TaskHomeActivity extends NavigationDrawer_Activity implements AddTaskFragment.OnFragmentInteractionListener {
 
     public static final String ARG_TASK_DETAILS = "task_details";
 
@@ -43,4 +45,8 @@ public class TaskHomeActivity extends NavigationDrawer_Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

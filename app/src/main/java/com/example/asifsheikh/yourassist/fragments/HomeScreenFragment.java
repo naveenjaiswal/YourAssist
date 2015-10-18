@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,18 @@ import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.Card_Adapter;
 import com.example.asifsheikh.yourassist.AddTaskActivity;
+import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
 import com.example.asifsheikh.yourassist.MainActivity;
 import com.example.asifsheikh.yourassist.R;
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.example.asifsheikh.yourassist.model.Task;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.asifsheikh.yourassist.fragments.RecyclerItemClickListener.*;
 
@@ -42,7 +50,7 @@ public class HomeScreenFragment extends Fragment {
     Context thiscontext;
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;
-
+    private FeedReaderDbHelper mDbHelper ;
     private RelativeLayout HomeScreenLayout;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -86,21 +94,19 @@ public class HomeScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         thiscontext = container.getContext();
+        List<Task> tasklist = new ArrayList<Task>();
+        mDbHelper = new FeedReaderDbHelper(thiscontext);
         HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
         mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
+        try {
+            tasklist = mDbHelper.getAllTask();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(tasklist.size() == 0){
+            mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
 
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        // TODO Handle item click
-                        Toast.makeText(getContext(), "this is my Toast message!!! =)",
-                                Toast.LENGTH_LONG).show();
-                    }
-                })
-        );
-
-
+        }
 
         final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
         final FloatingActionButton actionA = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_a);
@@ -118,20 +124,43 @@ public class HomeScreenFragment extends Fragment {
             }
         });
 
-        /*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });*/
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
-        mAdapter = new Card_Adapter(YourAssistApp.getAppInstance().getMyList(),getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+
+        Log.e("Printing the all task ", "" + tasklist.size());
+        mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
         mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
-
         mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
+        mAdapter.notifyDataSetChanged();
+        SwipeableRecyclerViewTouchListener swipeTouchListener =
+                new SwipeableRecyclerViewTouchListener(mRecyclerView,
+                        new SwipeableRecyclerViewTouchListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipe(int position) {
+                                return true;
+                            }
 
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    YourAssistApp.getAppInstance().getMyList().remove(position);
+                                    mAdapter.notifyItemRemoved(position);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    YourAssistApp.getAppInstance().getMyList().remove(position);
+                                    mAdapter.notifyItemRemoved(position);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+        mRecyclerView.addOnItemTouchListener(swipeTouchListener);
         return HomeScreenLayout;
     }
 

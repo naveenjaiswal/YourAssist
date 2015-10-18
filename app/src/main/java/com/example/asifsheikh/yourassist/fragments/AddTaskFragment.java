@@ -149,10 +149,15 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
         String startDateString = ed_due_date.getText().toString();
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         Date startDate;
+        Date current_date = new Date();
+        //Date dueDate;
         try {
             startDate = df.parse(startDateString);
+            current_date = df.parse(startDateString);
+            //dueDate = df.parse(startDateString);
             /*String newDateString = df.format(startDate);
             System.out.println(newDateString);*/
+            new_task.setStart_date(current_date);
             new_task.setDue_date(startDate);
         }  catch (ParseException e) {
             e.printStackTrace();

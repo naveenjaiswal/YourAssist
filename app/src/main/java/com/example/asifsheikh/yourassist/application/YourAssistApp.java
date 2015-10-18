@@ -5,6 +5,7 @@ import android.app.Application;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
 import com.example.asifsheikh.yourassist.model.Task;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,6 +31,7 @@ public class YourAssistApp extends Application {
 
     /* Client for accessing Google APIs */
     private  GoogleApiClient mGoogleApiClient;
+    
 
     private Person currentPerson;
     private String Email;
@@ -65,7 +67,7 @@ public class YourAssistApp extends Application {
 
     }
 
-    private YourAssistApp()
+    public YourAssistApp()
     {
 
     }
