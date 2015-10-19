@@ -29,8 +29,11 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.asifsheikh.yourassist.fragments.RecyclerItemClickListener.*;
@@ -50,6 +53,7 @@ public class HomeScreenFragment extends Fragment {
     Context thiscontext;
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;
+    private List<Task> tasklist = new ArrayList<Task>();
     private FeedReaderDbHelper mDbHelper ;
     private RelativeLayout HomeScreenLayout;
 
@@ -94,7 +98,7 @@ public class HomeScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         thiscontext = container.getContext();
-        List<Task> tasklist = new ArrayList<Task>();
+
         mDbHelper = new FeedReaderDbHelper(thiscontext);
         HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
         mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
@@ -128,11 +132,9 @@ public class HomeScreenFragment extends Fragment {
 
 
         Log.e("Printing the all task ", "" + tasklist.size());
-        mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
-        mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
-        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
-        mAdapter.notifyDataSetChanged();
+        refresh_task();
+        //mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+
         SwipeableRecyclerViewTouchListener swipeTouchListener =
                 new SwipeableRecyclerViewTouchListener(mRecyclerView,
                         new SwipeableRecyclerViewTouchListener.SwipeListener() {
@@ -144,19 +146,27 @@ public class HomeScreenFragment extends Fragment {
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    YourAssistApp.getAppInstance().getMyList().remove(position);
-                                    mAdapter.notifyItemRemoved(position);
+                                    Task t = tasklist.get(position);
+                                    mDbHelper.delete(t.getTask_id());
+
+                                    refresh_task();
+                                    /*YourAssistApp.getAppInstance().getMyList().remove(position);
+                                    mAdapter.notifyItemRemoved(position);*/
                                 }
-                                mAdapter.notifyDataSetChanged();
+                               // mAdapter.notifyDataSetChanged();
                             }
 
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    YourAssistApp.getAppInstance().getMyList().remove(position);
-                                    mAdapter.notifyItemRemoved(position);
+                                    /*YourAssistApp.getAppInstance().getMyList().remove(position);
+                                    mAdapter.notifyItemRemoved(position);*/
+                                    Task t = tasklist.get(position);
+                                    mDbHelper.delete(t.getTask_id());
+
+                                    refresh_task();
                                 }
-                                mAdapter.notifyDataSetChanged();
+                                //mAdapter.notifyDataSetChanged();
                             }
                         });
 
@@ -186,6 +196,23 @@ public class HomeScreenFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void refresh_task(){
+        try {
+            tasklist = mDbHelper.getAllTask();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(tasklist.size() == 0){
+            mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
+
+        }
+        mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
+        mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
+        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
+        mAdapter.notifyDataSetChanged();
     }
 
     /**

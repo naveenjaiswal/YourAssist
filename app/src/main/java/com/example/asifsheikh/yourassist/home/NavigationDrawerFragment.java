@@ -57,7 +57,7 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private ActionBarDrawerToggle mDrawerToggle;
 
-    private DrawerLayout mDrawerLayout;
+    public static DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private RecyclerView mDrawerRecyclerView;
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
@@ -102,7 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        //selectItem(mCurrentSelectedPosition);
     }
 
     @Override

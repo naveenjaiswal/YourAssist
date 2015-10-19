@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements
     private static final String KEY_SHOULD_RESOLVE = "should_resolve";
 
     /* Client for accessing Google APIs */
-    private GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
 
     /* View to display current status (signed-in, signed-out, disconnected, etc) */
     private TextView mStatus;
@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-       mGoogleApiClient.disconnect();
+       //mGoogleApiClient.disconnect();
     }
     // [END on_start_on_stop]
 

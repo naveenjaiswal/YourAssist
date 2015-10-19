@@ -14,6 +14,7 @@ public final class FeedReaderContract {
     public static abstract class FeedEntry implements BaseColumns {
         public static final String TABLE_NAME = "TaskTable";
         public static final String COLUMN_NAME_ENTRY_ID = "entryid";
+        public static final String COLUMN_NAME_TASK_ID = "taskid";
         public static final String COLUMN_NAME_TASK_NAME = "task_name";
         public static final String COLUMN_NAME_TASK_DESCRIPTION = "task_description";
         public static final String COLUMN_NAME_PRIORITY="priority";

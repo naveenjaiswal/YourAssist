@@ -6,22 +6,36 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
 import com.example.asifsheikh.yourassist.fragments.AddTaskFragment;
 import com.example.asifsheikh.yourassist.fragments.TaskHomeFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
+import com.example.asifsheikh.yourassist.model.Task;
+
+import java.text.ParseException;
 
 /**
  * Created by Admin on 9/23/2015.
  */
-public class TaskHomeActivity extends NavigationDrawer_Activity implements AddTaskFragment.OnFragmentInteractionListener {
+public class TaskHomeActivity extends NavigationDrawer_Activity implements TaskHomeFragment.OnFragmentInteractionListener {
 
     public static final String ARG_TASK_DETAILS = "task_details";
+    public String task_id;
+    private FeedReaderDbHelper mDbHelper;
+    private Task task;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle(getIntent().getStringExtra(ARG_TASK_DETAILS));
+        task_id = getIntent().getStringExtra(ARG_TASK_DETAILS).toString();
+        mDbHelper = new FeedReaderDbHelper(this);
+        try {
+            task = mDbHelper.getTaskfromDatabase(task_id);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.setTitle(task.getTask_name().toUpperCase());
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, TaskHomeFragment.newInstance(1))

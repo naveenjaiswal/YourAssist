@@ -51,6 +51,12 @@
             android:label="@string/app_name">
 
         </activity>
+
+        <activity
+            android:name=".TaskHomeActivity"
+            android:label="@string/app_name">
+        </activity>
+
         <activity android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Splash">

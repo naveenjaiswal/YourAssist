@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import com.example.asifsheikh.yourassist.HelpActivity;
 import com.example.asifsheikh.yourassist.MainActivity;
 import com.example.asifsheikh.yourassist.R;
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.example.asifsheikh.yourassist.home.NavigationDrawerFragment;
+import com.example.asifsheikh.yourassist.login.LoginActivity;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
@@ -96,33 +99,40 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
                     Intent mainIntent = new Intent(contxt, MainActivity.class);
                     contxt.startActivity(mainIntent);
                 }
+                NavigationDrawerFragment.mDrawerLayout.closeDrawers();
             }
             if(getPosition() == 2){
                 /*String TITLES[] = {"Genreal Task","Project Task","List Task"};
                 int ICONS[] = {R.drawable.general_task,R.drawable.project_task,R.drawable.list_task};*/
                 Intent mainIntent = new Intent(contxt, AddTaskActivity.class);
                 contxt.startActivity(mainIntent);
+                NavigationDrawerFragment.mDrawerLayout.closeDrawers();
 
 
             }
             if(getPosition() == 4){
                 Intent mainIntent = new Intent(contxt, HelpActivity.class);
                 contxt.startActivity(mainIntent);
+                NavigationDrawerFragment.mDrawerLayout.closeDrawers();
 
             }
 
             if(getPosition() == 5){
                 Intent mainIntent = new Intent(contxt, AboutActivity.class);
                 contxt.startActivity(mainIntent);
+                NavigationDrawerFragment.mDrawerLayout.closeDrawers();
             }
             if(getPosition() == 6){
-                if(YourAssistApp.getAppInstance().getmGoogleApiClient().isConnected())
-                {
-                    Plus.AccountApi.clearDefaultAccount(YourAssistApp.getAppInstance().getmGoogleApiClient());
-                    Plus.AccountApi.revokeAccessAndDisconnect(YourAssistApp.getAppInstance().getmGoogleApiClient());
-                    YourAssistApp.getAppInstance().getmGoogleApiClient().disconnect();
-
+                if (LoginActivity.mGoogleApiClient.isConnected()) {
+                    Plus.AccountApi.clearDefaultAccount(LoginActivity.mGoogleApiClient);
+                    LoginActivity.mGoogleApiClient.disconnect();
+                    Toast.makeText(contxt,"Logging out",Toast.LENGTH_LONG).show();
                 }
+                ((MainActivity)contxt).finish();
+                Intent mainIntent = new Intent(contxt, LoginActivity.class);
+                contxt.startActivity(mainIntent);
+                NavigationDrawerFragment.mDrawerLayout.closeDrawers();
+
             }
             else{
                 //Toast.makeText(contxt,"The Item Clicked is: "+getPosition(), Toast.LENGTH_SHORT).show();

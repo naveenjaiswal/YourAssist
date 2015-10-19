@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 public class TaskHomeFragment extends Fragment {
 
     Context thiscontext;
-    private RelativeLayout HomeScreenLayout;
+    private LinearLayout TaskDetailScreenLayout;
     private RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
@@ -57,7 +58,8 @@ public class TaskHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         thiscontext = container.getContext();
-        HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
+        TaskDetailScreenLayout = (LinearLayout) inflater.inflate(R.layout.taskdetails_activity,container,false);
+        /*HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
         mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
 
         mRecyclerView.addOnItemTouchListener(
@@ -89,12 +91,12 @@ public class TaskHomeFragment extends Fragment {
             }
         });
 
-        /*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        *//*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItem(position);
             }
-        });*/
+        });*//*
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
 
         mAdapter = new Card_Adapter(YourAssistApp.getAppInstance().getMyList(),getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
@@ -102,8 +104,8 @@ public class TaskHomeFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
 
         mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
-
-        return HomeScreenLayout;
+*/
+        return TaskDetailScreenLayout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

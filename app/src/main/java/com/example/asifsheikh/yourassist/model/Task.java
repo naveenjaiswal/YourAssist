@@ -1,5 +1,7 @@
 package com.example.asifsheikh.yourassist.model;
 
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,15 @@ import java.util.Date;
  */
 public class Task {
 
+    public int getTask_id() {
+        return task_id;
+    }
+
+    public void setTask_id(int task_id) {
+        this.task_id = task_id;
+    }
+
+    private int task_id;
     private String task_name;
     private String task_description;
     private String priority;
@@ -19,6 +30,7 @@ public class Task {
     }
 
     public Task( String mtaskname,String mtask_desp,String mpriority,Date mstartdate, Date mduedate){
+        this.task_id = ++YourAssistApp.getAppInstance().numberofTasks;
         this.task_name = mtaskname;
         this.task_description = mtask_desp;
         this.priority = mpriority;

@@ -1,13 +1,18 @@
 package com.example.asifsheikh.yourassist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
+import com.example.asifsheikh.yourassist.fragments.AddTaskFragment;
 import com.example.asifsheikh.yourassist.fragments.HomeScreenFragment;
 import com.example.asifsheikh.yourassist.home.NavigationDrawer_Activity;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -48,16 +53,42 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_settings) {
+        if (id == R.id.action_settings) {
             if (mGoogleApiClient.isConnected()) {
                 Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
                 Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
                 mGoogleApiClient.disconnect();
             }
             return true;
-        }*/
+        }
+
+        if (id == R.id.action_example) {
+            Toast.makeText(getApplicationContext(),"Refreshing the list",Toast.LENGTH_LONG).show();
+            HomeScreenFragment articleFrag = (HomeScreenFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.container);
+            if (articleFrag != null) {
+                articleFrag.refresh_task();
+            }
+
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainActivity.super.onBackPressed();
+                        MainActivity.this.finish();
+                    }
+                }).create().show();
     }
 
     @Override

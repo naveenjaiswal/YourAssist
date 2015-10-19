@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.model.Task;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -144,6 +145,8 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
 
     public Task get_task(){
         Task new_task = new Task();
+        YourAssistApp.getAppInstance().incrementTasknumber();
+        new_task.setTask_id(YourAssistApp.getAppInstance().numberofTasks);
         new_task.setTask_name(ed_task_name.getText().toString());
         new_task.setTask_description(ed_task_desp.getText().toString());
         String startDateString = ed_due_date.getText().toString();

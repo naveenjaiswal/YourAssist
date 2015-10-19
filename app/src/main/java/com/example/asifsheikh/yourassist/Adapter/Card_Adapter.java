@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,10 +34,12 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         CardView cv;
+        TextView task_id;
         TextView task_header;
         TextView task_desp;
         ImageView task_icon;
         Task mtask;
+        Button addsubtaskbutton;
         Context contxt;
 
         public ViewHolder(View itemView,Context c, Task task) {
@@ -44,18 +47,30 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
             contxt = c;
             mtask = task;
             cv = (CardView)itemView.findViewById(R.id.cv);
+            task_id = (TextView) itemView.findViewById(R.id.tv_task_id);
             task_header = (TextView)itemView.findViewById(R.id.tv_task_header);
             task_desp = (TextView)itemView.findViewById(R.id.tv_task_despcription);
+            addsubtaskbutton = (Button) itemView.findViewById(R.id.button_add_subtask);
+            addsubtaskbutton.setOnClickListener(this);
             task_icon = (ImageView)itemView.findViewById(R.id.taskIcon);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.button_add_subtask:
+                    break;
+                default:
+                    TextView tv_task_id = (TextView) v.findViewById(R.id.tv_task_id);
+                    Intent mainIntent = new Intent(contxt, TaskHomeActivity.class);
+                    mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS, tv_task_id.getText());
+                    contxt.startActivity(mainIntent);
+                    break;
 
-            Intent mainIntent = new Intent(contxt, TaskHomeActivity.class);
-            mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS,"Shopping");
-            contxt.startActivity(mainIntent);
+
+            }
+
 
         }
     }
@@ -90,6 +105,7 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
         Log.d(" " + current.getTask_name() + " " + current.getTask_description() ,"task description");
         holder.task_header.setText(current.getTask_name());
         holder.task_desp.setText(current.getTask_description());
+        holder.task_id.setText(""+current.getTask_id()+"");
         //holder.task_icon.
 
     }

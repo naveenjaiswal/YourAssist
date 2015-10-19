@@ -24,6 +24,7 @@ public class YourAssistApp extends Application {
     /* Singleton Object */
     private static YourAssistApp mYourAssistApp;
     private RequestQueue mRequestQueue;
+    public static int numberofTasks;
 
     List<Task> myList = new ArrayList<Task>();
 
@@ -35,6 +36,7 @@ public class YourAssistApp extends Application {
 
     private Person currentPerson;
     private String Email;
+    private FeedReaderDbHelper mDBhelper;
 
     public String getEmail() {
         return Email;
@@ -52,12 +54,23 @@ public class YourAssistApp extends Application {
         this.currentPerson = currentPerson;
     }
 
+    public void incrementTasknumber(){
+        numberofTasks++;
+    }
+
+    public void decrementTaskNUmber(){
+        numberofTasks--;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         mRequestQueue = Volley.newRequestQueue(this);
-
+        mDBhelper = new FeedReaderDbHelper(getApplicationContext());
+        //mDBhelper.dropTaskTable();
+        numberofTasks = mDBhelper.getTotalTasks();
+        //numberofTasks = 0;
         mYourAssistApp = this;
     }
 
