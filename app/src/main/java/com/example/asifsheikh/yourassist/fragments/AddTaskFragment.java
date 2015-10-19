@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
 import com.example.asifsheikh.yourassist.R;
-import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.model.Task;
+import com.example.asifsheikh.yourassist.utility.Utility;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -37,6 +37,7 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
     private RelativeLayout AddTakLayout;
     ImageView date_picker_image;
     EditText dateTextView;
+    private FeedReaderDbHelper mDbHelper;
     private EditText ed_task_name;
     private EditText ed_task_desp;
     private EditText ed_due_date;
@@ -44,7 +45,6 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
     private String[] arraySpinner;
 
     private OnFragmentInteractionListener mListener;
-
 
     public static AddTaskFragment newInstance(int section) {
         AddTaskFragment fragment = new AddTaskFragment();
@@ -74,6 +74,7 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
         prority_spinner = (Spinner) AddTakLayout.findViewById(R.id.spinner_priority);
         date_picker_image = (ImageView) AddTakLayout.findViewById(R.id.iv_datepicker);
         dateTextView = (EditText) AddTakLayout.findViewById(R.id.date_textview);
+        dateTextView.setText(Utility.getDate(new Date()));
         this.arraySpinner = new String[] {
                 "low", "medium", "high"
         };
@@ -145,8 +146,9 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
 
     public Task get_task(){
         Task new_task = new Task();
-        YourAssistApp.getAppInstance().incrementTasknumber();
-        new_task.setTask_id(YourAssistApp.getAppInstance().numberofTasks);
+        mDbHelper = new FeedReaderDbHelper(getActivity());
+        //YourAssistApp.getAppInstance().incrementTasknumber();
+        new_task.setTask_id(mDbHelper.getnextTaskId());
         new_task.setTask_name(ed_task_name.getText().toString());
         new_task.setTask_description(ed_task_desp.getText().toString());
         String startDateString = ed_due_date.getText().toString();

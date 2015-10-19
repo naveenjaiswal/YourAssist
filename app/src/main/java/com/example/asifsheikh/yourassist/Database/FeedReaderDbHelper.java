@@ -130,9 +130,9 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
     public void delete(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from "+FeedReaderContract.FeedEntry.TABLE_NAME+" where " + FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID +"='"+id+"'");
+        db.execSQL("delete from " + FeedReaderContract.FeedEntry.TABLE_NAME + " where " + FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID + "='" + id + "'");
         db.close();
-        YourAssistApp.getAppInstance().decrementTaskNUmber();
+        //YourAssistApp.getAppInstance().decrementTaskNUmber();
     }
 
     public Task getTaskfromDatabase(String task_id) throws ParseException {
@@ -157,12 +157,47 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         return mtask;
     }
 
+    public void updateTask(Task mtask){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+// Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID, "" + mtask.getTask_id());
+        //values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TASK_ID, 0);
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TASK_NAME, mtask.getTask_name());
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TASK_DESCRIPTION, mtask.getTask_description());
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_PRIORITY, mtask.getPriority());
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_START_DATE, getDate(mtask.getStart_date()));
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_END_DATE, getDate(mtask.getDue_date()));
+
+        db.update(
+                FeedReaderContract.FeedEntry.TABLE_NAME,
+                values, FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID + "=" + mtask.getTask_id(), null);
+        db.close();
+    }
+
     public int getTotalTasks(){
         String selectQuery = "SELECT  * FROM " + FeedReaderContract.FeedEntry.TABLE_NAME + " ";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         //database.close();
         return cursor.getCount();
+    }
+
+    public int getnextTaskId() {
+        int nexttaskid;
+        String selectQuery = "SELECT  * FROM " + FeedReaderContract.FeedEntry.TABLE_NAME + " ";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        if (cursor.getCount() == 0)
+            return 1;
+        else {
+            cursor.moveToLast();
+            nexttaskid = Integer.parseInt(cursor.getString(1));
+        }
+
+        database.close();
+        return ++nexttaskid;
     }
 
 }

@@ -57,6 +57,21 @@
             android:label="@string/app_name">
         </activity>
 
+        <activity
+            android:name=".SubTaskAddActivity"
+            android:label="@string/app_name">
+        </activity>
+
+        <activity
+            android:name=".SubTaskDashboard"
+            android:label="@string/app_name">
+        </activity>
+
+        <activity
+            android:name=".SubTaskHomeActivity"
+            android:label="@string/app_name">
+        </activity>
+
         <activity android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Splash">

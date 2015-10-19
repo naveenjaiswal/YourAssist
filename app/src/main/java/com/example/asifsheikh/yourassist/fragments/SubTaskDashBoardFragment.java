@@ -14,37 +14,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.asifsheikh.yourassist.Adapter.Card_Adapter;
+import com.example.asifsheikh.yourassist.Adapter.SubTaskCard_Adapter;
 import com.example.asifsheikh.yourassist.AddTaskActivity;
-import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
+import com.example.asifsheikh.yourassist.Database.FeedReaderSubTaskDbHelper;
 import com.example.asifsheikh.yourassist.R;
-import com.example.asifsheikh.yourassist.model.Task;
+import com.example.asifsheikh.yourassist.SubTaskAddActivity;
+import com.example.asifsheikh.yourassist.SubTaskDashboard;
+import com.example.asifsheikh.yourassist.model.SubTask;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.brnunes.swipeablerecyclerview.SwipeableRecyclerViewTouchListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeScreenFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by asifsheikh on 19/10/15.
  */
-public class HomeScreenFragment extends Fragment {
-
+public class SubTaskDashBoardFragment extends Fragment {
     private RecyclerView mRecyclerView;
     Context thiscontext;
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;
-    private List<Task> tasklist = new ArrayList<Task>();
-    private FeedReaderDbHelper mDbHelper ;
-    private RelativeLayout HomeScreenLayout;
+    private List<SubTask> tasklist = new ArrayList<SubTask>();
+    private FeedReaderSubTaskDbHelper mDbHelper ;
+    private RelativeLayout SubTaskDashboard;
+
+    private OnFragmentInteractionListener mListener;
 
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -53,7 +49,6 @@ public class HomeScreenFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private int mParam1;
 
-    private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
@@ -63,17 +58,18 @@ public class HomeScreenFragment extends Fragment {
      * @return A new instance of fragment BlankFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeScreenFragment newInstance(int section) {
-        HomeScreenFragment fragment = new HomeScreenFragment();
+    public static SubTaskDashBoardFragment newInstance(int section) {
+        SubTaskDashBoardFragment fragment = new SubTaskDashBoardFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, section);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public HomeScreenFragment() {
+    public SubTaskDashBoardFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,32 +84,25 @@ public class HomeScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         thiscontext = container.getContext();
 
-        mDbHelper = new FeedReaderDbHelper(thiscontext);
-        HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
-        mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
-        try {
+        mDbHelper = new FeedReaderSubTaskDbHelper(thiscontext);
+        SubTaskDashboard = (RelativeLayout) inflater.inflate(R.layout.activity_subtask_add, container, false);
+        mRecyclerView = (RecyclerView) SubTaskDashboard.findViewById(R.id.CardRecyclerView);
+        /*try {
             tasklist = mDbHelper.getAllTask();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(tasklist.size() == 0){
+        if (tasklist.size() == 0) {
             mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
 
-        }
+        }*/
 
-        final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
-        final FloatingActionButton actionA = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_a);
-        final FloatingActionButton actionB = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_b);
-        final FloatingActionButton actionC = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_c);
-        actionA.setIcon(R.drawable.general_task);
-        actionB.setIcon(R.drawable.project_task);
-        actionC.setIcon(R.drawable.list_task);
+        final FloatingActionButton actionA = (FloatingActionButton) SubTaskDashboard.findViewById(R.id.FAB_create_subtask);
         actionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(getContext(), AddTaskActivity.class);
+                Intent mainIntent = new Intent(getContext(), SubTaskAddActivity.class);
                 getContext().startActivity(mainIntent);
-                menuMultipleActions.collapse();
             }
         });
 
@@ -121,7 +110,8 @@ public class HomeScreenFragment extends Fragment {
 
 
         Log.e("Printing the all task ", "" + tasklist.size());
-        refresh_task();
+       refresh_subtask();
+
         //mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
 
         SwipeableRecyclerViewTouchListener swipeTouchListener =
@@ -135,14 +125,14 @@ public class HomeScreenFragment extends Fragment {
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
-                                    Task t = tasklist.get(position);
+                                    SubTask t = tasklist.get(position);
                                     mDbHelper.delete(t.getTask_id());
 
-                                    refresh_task();
+                                    refresh_subtask();
                                     /*YourAssistApp.getAppInstance().getMyList().remove(position);
                                     mAdapter.notifyItemRemoved(position);*/
                                 }
-                               // mAdapter.notifyDataSetChanged();
+                                // mAdapter.notifyDataSetChanged();
                             }
 
                             @Override
@@ -150,18 +140,26 @@ public class HomeScreenFragment extends Fragment {
                                 for (int position : reverseSortedPositions) {
                                     /*YourAssistApp.getAppInstance().getMyList().remove(position);
                                     mAdapter.notifyItemRemoved(position);*/
-                                    Task t = tasklist.get(position);
+                                    SubTask t = tasklist.get(position);
                                     mDbHelper.delete(t.getTask_id());
 
-                                    refresh_task();
+                                    refresh_subtask();
                                 }
                                 //mAdapter.notifyDataSetChanged();
                             }
                         });
 
         mRecyclerView.addOnItemTouchListener(swipeTouchListener);
-        return HomeScreenLayout;
+        return SubTaskDashboard;
+
     }
+
+
+
+
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -169,6 +167,7 @@ public class HomeScreenFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -187,22 +186,6 @@ public class HomeScreenFragment extends Fragment {
         mListener = null;
     }
 
-    public void refresh_task(){
-        try {
-            tasklist = mDbHelper.getAllTask();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if(tasklist.size() == 0){
-            mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
-
-        }
-        mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
-        mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
-        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
-        mAdapter.notifyDataSetChanged();
-    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -218,5 +201,25 @@ public class HomeScreenFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+
+    public void refresh_subtask(){
+        try {
+            tasklist = mDbHelper.getAllSubTask(com.example.asifsheikh.yourassist.SubTaskDashboard.task.getTask_id());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        /*if(tasklist.size() == 0){
+            mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
+
+        }*/
+        mAdapter = new SubTaskCard_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
+        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
+        mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
+        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
+        mAdapter.notifyDataSetChanged();
+    }
+
+
 
 }

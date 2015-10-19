@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.asifsheikh.yourassist.AddTaskActivity;
 import com.example.asifsheikh.yourassist.R;
+import com.example.asifsheikh.yourassist.SubTaskDashboard;
 import com.example.asifsheikh.yourassist.TaskHomeActivity;
 import com.example.asifsheikh.yourassist.application.YourAssistApp;
 import com.example.asifsheikh.yourassist.model.Task;
@@ -58,13 +59,19 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
+           // TextView tv_task_id;
+            Intent mainIntent;
+            /*tv_task_id = (TextView) v.findViewById(R.id.tv_task_id);
+            String task_id = tv_task_id.getText().toString();*/
             switch (v.getId()){
                 case R.id.button_add_subtask:
+                    mainIntent = new Intent(contxt, SubTaskDashboard.class);
+                    mainIntent.putExtra(SubTaskDashboard.ARG_TASK_DETAILS,task_id.getText());
+                    contxt.startActivity(mainIntent);
                     break;
                 default:
-                    TextView tv_task_id = (TextView) v.findViewById(R.id.tv_task_id);
-                    Intent mainIntent = new Intent(contxt, TaskHomeActivity.class);
-                    mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS, tv_task_id.getText());
+                    mainIntent = new Intent(contxt, TaskHomeActivity.class);
+                    mainIntent.putExtra(TaskHomeActivity.ARG_TASK_DETAILS, task_id.getText());
                     contxt.startActivity(mainIntent);
                     break;
 

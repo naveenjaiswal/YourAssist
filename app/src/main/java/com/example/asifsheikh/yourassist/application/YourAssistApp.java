@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
+import com.example.asifsheikh.yourassist.Database.FeedReaderSubTaskDbHelper;
 import com.example.asifsheikh.yourassist.model.Task;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,6 +38,7 @@ public class YourAssistApp extends Application {
     private Person currentPerson;
     private String Email;
     private FeedReaderDbHelper mDBhelper;
+    private FeedReaderSubTaskDbHelper mDbSubTaskHelper;
 
     public String getEmail() {
         return Email;
@@ -68,6 +70,8 @@ public class YourAssistApp extends Application {
 
         mRequestQueue = Volley.newRequestQueue(this);
         mDBhelper = new FeedReaderDbHelper(getApplicationContext());
+        mDbSubTaskHelper = new FeedReaderSubTaskDbHelper((getApplicationContext()));
+        mDbSubTaskHelper.initialize_subtask_db();
         //mDBhelper.dropTaskTable();
         numberofTasks = mDBhelper.getTotalTasks();
         //numberofTasks = 0;
