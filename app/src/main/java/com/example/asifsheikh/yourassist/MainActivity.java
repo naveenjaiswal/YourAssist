@@ -77,6 +77,28 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        HomeScreenFragment articleFrag = (HomeScreenFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
+        if (articleFrag != null) {
+            articleFrag.refresh_task();
+        }
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        HomeScreenFragment articleFrag = (HomeScreenFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
+        if (articleFrag != null) {
+            articleFrag.refresh_task();
+        }
+
+    }
+
+    @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle("Really Exit?")

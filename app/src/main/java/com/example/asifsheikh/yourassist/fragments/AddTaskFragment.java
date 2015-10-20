@@ -140,7 +140,7 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int monthOfYear, int dayOfMonth) {
-        String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        String date = (monthOfYear+1)+"/"+dayOfMonth+"/"+year;
         dateTextView.setText(date);
     }
 
@@ -162,7 +162,7 @@ public class AddTaskFragment extends Fragment implements  TimePickerDialog.OnTim
             //dueDate = df.parse(startDateString);
             /*String newDateString = df.format(startDate);
             System.out.println(newDateString);*/
-            new_task.setStart_date(current_date);
+            new_task.setStart_date(new Date());
             new_task.setDue_date(startDate);
         }  catch (ParseException e) {
             e.printStackTrace();

@@ -149,7 +149,7 @@ public class TaskHomeFragment extends Fragment implements DatePickerDialog.OnDat
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        String date = (monthOfYear+1)+"/"+dayOfMonth+"/"+year;
         dateTextView.setText(date);
     }
 

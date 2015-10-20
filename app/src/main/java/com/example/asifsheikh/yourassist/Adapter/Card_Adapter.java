@@ -137,7 +137,7 @@ public class Card_Adapter extends RecyclerView.Adapter<Card_Adapter.ViewHolder> 
             percentage = current.getComplete_subtask() / (float)current.getTotal_number_of_subtask();
         }
         percentage = percentage*100;
-        holder.complete_percentage.setText(""+percentage+"% done.");
+        holder.complete_percentage.setText(""+Math.round(percentage)+"% done.");
         //holder.task_icon.
 
     }

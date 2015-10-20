@@ -89,6 +89,28 @@ public class SubTaskDashboard extends NavigationDrawer_Activity implements SubTa
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        SubTaskDashBoardFragment articleFrag = (SubTaskDashBoardFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
+        if (articleFrag != null) {
+            articleFrag.refresh_subtask();
+        }
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        SubTaskDashBoardFragment articleFrag = (SubTaskDashBoardFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
+        if (articleFrag != null) {
+            articleFrag.refresh_subtask();
+        }
+
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
