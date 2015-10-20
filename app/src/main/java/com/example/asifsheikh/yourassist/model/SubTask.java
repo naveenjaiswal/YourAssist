@@ -9,6 +9,16 @@ public class SubTask {
 
     private int task_id;
     private int subtask_id;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    private int status;
     private String subtask_name;
 
     public int getTask_id() {

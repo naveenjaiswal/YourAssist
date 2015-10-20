@@ -63,7 +63,7 @@ public class MainActivity extends NavigationDrawer_Activity  implements HomeScre
         }
 
         if (id == R.id.action_example) {
-            Toast.makeText(getApplicationContext(),"Refreshing the list",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Refreshing the Task list",Toast.LENGTH_LONG).show();
             HomeScreenFragment articleFrag = (HomeScreenFragment)
                     getSupportFragmentManager().findFragmentById(R.id.container);
             if (articleFrag != null) {

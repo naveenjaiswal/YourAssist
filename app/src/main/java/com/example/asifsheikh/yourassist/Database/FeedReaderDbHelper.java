@@ -24,7 +24,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "FeedReader.db";
-
+    private Context mcontext;
     private static final String TEXT_TYPE = " TEXT";
     //private static final Date DATE_TYPE;
     private static final String INTEGER_TYPE = "INTEGER";
@@ -45,6 +45,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
 
     public FeedReaderDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mcontext = context;
         SQLiteDatabase db = this.getWritableDatabase();
         //dropTaskTable();
         db.close();
@@ -93,6 +94,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     }
 
     public List<Task> getAllTask() throws ParseException {
+        FeedReaderSubTaskDbHelper mDbHelperSubtask = new FeedReaderSubTaskDbHelper(mcontext);
         List<Task> task_list;
         task_list = new ArrayList<Task>();
         String selectQuery = "SELECT  * FROM " + FeedReaderContract.FeedEntry.TABLE_NAME + " ";
@@ -108,12 +110,12 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
                 mtask.setTask_name(cursor.getString(2));
                 mtask.setTask_description(cursor.getString(3));
                 mtask.setPriority(cursor.getString(4));
-                //Log.e("startdate : ", cursor.getString(4));
                 Date dt = sdf.parse(cursor.getString(5));
                 mtask.setStart_date(dt);
                 dt = sdf.parse(cursor.getString(6));
                 mtask.setDue_date(dt);
-               Log.e("task : ",mtask.getTask_name());
+                mtask.setTotal_number_of_subtask(mDbHelperSubtask.getTotalSubtaskforTask(Integer.parseInt(cursor.getString(1))));
+                mtask.setComplete_subtask(mDbHelperSubtask.getCompletedSubTaskforTask(Integer.parseInt(cursor.getString(1))));
                 task_list.add(mtask);
             } //while (cursor.moveToNext());
 
@@ -136,7 +138,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     }
 
     public Task getTaskfromDatabase(String task_id) throws ParseException {
-        String selectQuery = "SELECT  * FROM " + FeedReaderContract.FeedEntry.TABLE_NAME + " where " + FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID +"="+task_id+"";
+        String selectQuery = "SELECT  * FROM " + FeedReaderContract.FeedEntry.TABLE_NAME + " where " + FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID +"='"+task_id+"'";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());

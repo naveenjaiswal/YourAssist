@@ -38,7 +38,7 @@ public class YourAssistApp extends Application {
     private Person currentPerson;
     private String Email;
     private FeedReaderDbHelper mDBhelper;
-    private FeedReaderSubTaskDbHelper mDbSubTaskHelper;
+    public static FeedReaderSubTaskDbHelper mDbSubTaskHelper;
 
     public String getEmail() {
         return Email;

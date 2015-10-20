@@ -28,7 +28,6 @@ public class AddSubTaskFragment extends Fragment implements View.OnClickListener
     private FeedReaderSubTaskDbHelper mDbHelper;
     private EditText ed_task_name;
     private EditText ed_task_desp;
-    private Button bt_create_subtask;
 
 
     private OnFragmentInteractionListener mListener;
@@ -50,8 +49,8 @@ public class AddSubTaskFragment extends Fragment implements View.OnClickListener
         AddSubTaskLayout = (RelativeLayout) inflater.inflate(R.layout.activity_addsubtask, container, false);
         ed_task_name = (EditText) AddSubTaskLayout.findViewById(R.id.ed_sub_task_name);
         ed_task_desp = (EditText) AddSubTaskLayout.findViewById(R.id.subtask_description);
-       bt_create_subtask = (Button) AddSubTaskLayout.findViewById(R.id.bt_subtask_create);
-        bt_create_subtask.setOnClickListener(this);
+       /*bt_create_subtask = (Button) AddSubTaskLayout.findViewById(R.id.bt_subtask_create);
+        bt_create_subtask.setOnClickListener(this);*/
         return AddSubTaskLayout;
     }
 
@@ -83,6 +82,7 @@ public class AddSubTaskFragment extends Fragment implements View.OnClickListener
         SubTask new_task = new SubTask();
         mDbHelper = new FeedReaderSubTaskDbHelper(getActivity());
         //YourAssistApp.getAppInstance().incrementTasknumber();
+        new_task.setSubtask_id(0);
         new_task.setTask_id(SubTaskDashboard.task.getTask_id());
         new_task.setSubtask_id(mDbHelper.getnextsubtask_id(SubTaskDashboard.task.getTask_id()));
         new_task.setSubtask_name(ed_task_name.getText().toString());
@@ -93,7 +93,7 @@ public class AddSubTaskFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.bt_subtask_create:
+            /*case R.id.bt_subtask_create:
                 SubTask new_task = new SubTask();
                 mDbHelper = new FeedReaderSubTaskDbHelper(getActivity());
                 //YourAssistApp.getAppInstance().incrementTasknumber();
@@ -103,7 +103,7 @@ public class AddSubTaskFragment extends Fragment implements View.OnClickListener
                 new_task.setSubtask_description(ed_task_desp.getText().toString());
                 mDbHelper.inserttask(new_task);
 
-                break;
+                break;*/
         }
     }
 

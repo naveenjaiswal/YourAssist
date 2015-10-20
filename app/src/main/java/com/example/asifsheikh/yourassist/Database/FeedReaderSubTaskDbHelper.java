@@ -24,12 +24,12 @@ import java.util.Locale;
 public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "FeedReader";
 
     private static final String TEXT_TYPE = " TEXT";
     //private static final Date DATE_TYPE;
-    private static final String INTEGER_TYPE = "INTEGER";
+    private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " (" +
@@ -37,7 +37,8 @@ public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
                     FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID + TEXT_TYPE + COMMA_SEP +
                     FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_ID + TEXT_TYPE + COMMA_SEP +
                     FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_NAME + TEXT_TYPE + COMMA_SEP +
-                    FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_DESCRIPTION + TEXT_TYPE +
+                    FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
+                    FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_STATUS + INTEGER_TYPE +
                     " )";
 
     private static final String SQL_DELETE_ENTRIES =
@@ -65,6 +66,7 @@ public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);
+        dropTaskTable();
         onCreate(db);
     }
 
@@ -84,7 +86,7 @@ public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
         values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_ID, "" + new_subtask.getSubtask_id());
         values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_NAME, new_subtask.getSubtask_name());
         values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_DESCRIPTION, new_subtask.getSubtask_description());
-
+        values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_STATUS,new_subtask.getStatus());
 // Insert the new row, returning the primary key value of the new row
         long newRowId;
         newRowId = db.insert(
@@ -111,6 +113,7 @@ public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             SubTask mtask = new SubTask();
+            mtask.setStatus(cursor.getInt(5));
             mtask.setTask_id(Integer.parseInt(cursor.getString(1)));
             mtask.setSubtask_id(Integer.parseInt(cursor.getString(2)));
             Log.e("task id : ", cursor.getString(1));
@@ -125,25 +128,26 @@ public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
         return task_list;
     }
 
-    public SubTask getTaskfromDatabase(String task_id) throws ParseException {
-        String selectQuery = "SELECT  * FROM " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID +"="+task_id+"";
+    public SubTask getSubTaskfromDatabase(String task_id, String sub_task_id) throws ParseException {
+        String selectQuery = "SELECT  * FROM " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID +"='"+task_id+"' AND "+ FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_ID+"='"+sub_task_id+"'";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         cursor.moveToFirst();
         SubTask mtask = new SubTask();
         mtask.setTask_id(Integer.parseInt(cursor.getString(1)));
         mtask.setSubtask_id(Integer.parseInt(cursor.getString(2)));
-        Log.e("task id : ", cursor.getString(1));
+        Log.e("Sub task id : ", cursor.getString(1));
         mtask.setSubtask_name(cursor.getString(3));
         mtask.setSubtask_description(cursor.getString(4));
-        Log.e("task : ", mtask.getSubtask_name());
+        mtask.setStatus(cursor.getInt(5));
+        Log.e(" Sub task : ", mtask.getSubtask_name());
         database.close();
         return mtask;
     }
 
     public int getnextsubtask_id(int taskid){
         int nextcount;
-        String selectQuery = "SELECT  * FROM " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID+"="+taskid;
+        String selectQuery = "SELECT  * FROM " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID+"='"+taskid+"'";
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery(selectQuery, null);
         Log.e("size of cursor ", " " + cursor.getCount());
@@ -156,6 +160,59 @@ public class FeedReaderSubTaskDbHelper extends SQLiteOpenHelper {
         }
 
         return ++nextcount;
+    }
+
+    public void delete_subtask(SubTask msubtask){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID + "='" + msubtask.getTask_id() + "' AND " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_ID + "='" + msubtask.getSubtask_id() + "'");
+                db.close();
+
+    }
+
+    public void delete_task_subtask(int task_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID + "='" + task_id + "'");
+        db.close();
+
+    }
+
+    public void update_subtask(SubTask msubtask){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID, "" + msubtask.getTask_id());
+        values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_ID, msubtask.getSubtask_id());
+        values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_NAME, msubtask.getSubtask_name());
+        values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_DESCRIPTION, msubtask.getSubtask_description());
+        values.put(FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_STATUS,msubtask.getStatus());
+        db.update(
+                FeedReaderSubTaskContract.FeedEntry.TABLE_NAME,
+                values, FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID + "='" + msubtask.getTask_id() + "' AND " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_SUB_TASK_ID + "='" + msubtask.getSubtask_id() + "'", null);
+        db.close();
+    }
+
+    public int getTotalSubtaskforTask(int task_id){
+        String selectQuery = "SELECT  * FROM " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID+"='"+task_id+"'";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        Log.e("size of cursor ", " " + cursor.getCount());
+        cursor.moveToFirst();
+        return cursor.getCount();
+    }
+
+    public int getCompletedSubTaskforTask(int task_id){
+        int completedcount=0;
+        String selectQuery = "SELECT  * FROM " + FeedReaderSubTaskContract.FeedEntry.TABLE_NAME + " where " + FeedReaderSubTaskContract.FeedEntry.COLUMN_NAME_TASK_ID+"='"+task_id+"'";
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            if(cursor.getInt(5) == 1){
+                completedcount++;
+            }
+        } //while (cursor.moveToNext());
+        database.close();
+        return completedcount;
     }
 
 

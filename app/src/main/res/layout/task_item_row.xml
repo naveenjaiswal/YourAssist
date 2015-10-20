@@ -12,18 +12,16 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent" android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingLeft="8sp"
             android:paddingRight="8sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:paddingBottom="8sp"
             android:background="@color/white">
 
             <LinearLayout
-                android:layout_width="5dp"
+                android:layout_width="8dp"
                 android:orientation="vertical"
-                android:layout_height="match_parent"
+                android:layout_height="130dp"
                 android:background="@color/priority_high"
-                android:id="@+id/linearLayout2">
+                android:id="@+id/ll_priority_indicator">
 
             </LinearLayout>
 
@@ -32,11 +30,9 @@
                 android:layout_height="60sp"
                 android:id="@+id/taskIcon"
                 android:src="@drawable/general_task"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/linearLayout2"
-                android:layout_toEndOf="@+id/linearLayout2"
-                android:layout_marginLeft="23dp"
-                android:layout_marginStart="23dp" />
+                android:layout_alignBottom="@+id/tv_task_despcription"
+                android:layout_toLeftOf="@+id/tv_task_header"
+                android:layout_toStartOf="@+id/tv_task_header" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +64,6 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="100 % complete"
                 android:id="@+id/tv_percentage"
-                android:layout_marginTop="24dp"
                 android:layout_below="@+id/taskIcon"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
@@ -76,22 +71,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8sp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Pending Sub Tasks : 0/0"
                 android:id="@+id/tv_pending_count"
-                android:layout_alignBottom="@+id/tv_percentage"
-                android:layout_toRightOf="@+id/linearLayout2"
-                android:layout_toEndOf="@+id/linearLayout2" />
+                android:layout_alignBaseline="@+id/button_add_subtask"
+                android:layout_alignBottom="@+id/button_add_subtask"
+                android:layout_toRightOf="@+id/ll_priority_indicator"
+                android:layout_toEndOf="@+id/ll_priority_indicator" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Subtask"
+                android:text="Manage"
                 android:id="@+id/button_add_subtask"
                 android:layout_below="@+id/tv_percentage"
+                android:layout_marginBottom="8dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                style="@style/AlertDialog.AppCompat.Light"
+                android:background="@android:color/holo_orange_dark"
+                android:backgroundTint="@android:color/holo_orange_light" />
 
             <TextView
                 android:layout_width="wrap_content"

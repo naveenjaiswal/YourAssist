@@ -125,45 +125,6 @@
         android:layout_below="@+id/spinner_priority"
         android:layout_centerHorizontal="true" />
 
-    <!--<LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:background="@color/half_black"
-        android:layout_above="@+id/ll_done_cancel"
-        android:layout_height="1dp"></LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll_done_cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Cancel"
-            android:layout_weight="0"
-            android:id="@+id/textView3" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="1dp"
-            android:background="@color/half_black"
-            android:layout_weight="0"
-            android:layout_height="match_parent"></LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView4" />
-    </LinearLayout>-->
 
 
 </RelativeLayout>

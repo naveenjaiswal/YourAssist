@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.SubTaskCard_Adapter;
 import com.example.asifsheikh.yourassist.AddTaskActivity;
@@ -126,8 +127,9 @@ public class SubTaskDashBoardFragment extends Fragment {
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
                                     SubTask t = tasklist.get(position);
-                                    mDbHelper.delete(t.getTask_id());
-
+                                    //mDbHelper.delete(t.getTask_id());
+                                    mDbHelper.delete_subtask(t);
+                                    Toast.makeText(getContext(), "SubTask Deleted..!!", Toast.LENGTH_LONG).show();
                                     refresh_subtask();
                                     /*YourAssistApp.getAppInstance().getMyList().remove(position);
                                     mAdapter.notifyItemRemoved(position);*/
@@ -141,8 +143,9 @@ public class SubTaskDashBoardFragment extends Fragment {
                                     /*YourAssistApp.getAppInstance().getMyList().remove(position);
                                     mAdapter.notifyItemRemoved(position);*/
                                     SubTask t = tasklist.get(position);
-                                    mDbHelper.delete(t.getTask_id());
-
+                                    //mDbHelper.delete(t.getTask_id());
+                                    mDbHelper.delete_subtask(t);
+                                    Toast.makeText(getContext(), "SubTask Deleted..!!", Toast.LENGTH_LONG).show();
                                     refresh_subtask();
                                 }
                                 //mAdapter.notifyDataSetChanged();
@@ -209,10 +212,14 @@ public class SubTaskDashBoardFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        /*if(tasklist.size() == 0){
+        if(tasklist.size() == 0){
             mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
 
-        }*/
+        }
+        else
+        {
+            mRecyclerView.setBackground(getResources().getDrawable(R.color.background_grey));
+        }
         mAdapter = new SubTaskCard_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
         mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager

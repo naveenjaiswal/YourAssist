@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,16 +97,19 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
         public void onClick(View v) {
             if(getPosition() == 1){
                 if(!(contxt instanceof MainActivity)) {
-                    Intent mainIntent = new Intent(contxt, MainActivity.class);
-                    contxt.startActivity(mainIntent);
+                    Intent intent = new Intent(contxt, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    contxt.startActivity(intent);
                 }
                 NavigationDrawerFragment.mDrawerLayout.closeDrawers();
             }
             if(getPosition() == 2){
                 /*String TITLES[] = {"Genreal Task","Project Task","List Task"};
                 int ICONS[] = {R.drawable.general_task,R.drawable.project_task,R.drawable.list_task};*/
-                Intent mainIntent = new Intent(contxt, AddTaskActivity.class);
-                contxt.startActivity(mainIntent);
+                if(!(contxt instanceof AddTaskActivity)) {
+                    Intent mainIntent = new Intent(contxt, AddTaskActivity.class);
+                    contxt.startActivity(mainIntent);
+                }
                 NavigationDrawerFragment.mDrawerLayout.closeDrawers();
 
 
@@ -128,7 +132,9 @@ public class Nav_Adapter extends RecyclerView.Adapter<Nav_Adapter.ViewHolder> {
                     LoginActivity.mGoogleApiClient.disconnect();
                     Toast.makeText(contxt,"Logging out",Toast.LENGTH_LONG).show();
                 }
-                ((MainActivity)contxt).finish();
+                AppCompatActivity activity = (AppCompatActivity) contxt;
+                activity.finish();
+                //((MainActivity)contxt).finish();
                 Intent mainIntent = new Intent(contxt, LoginActivity.class);
                 contxt.startActivity(mainIntent);
                 NavigationDrawerFragment.mDrawerLayout.closeDrawers();

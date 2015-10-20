@@ -55,9 +55,6 @@ public class TaskHomeFragment extends Fragment implements DatePickerDialog.OnDat
     private String[] arraySpinner;
     private Button bt_save_button;
     private FeedReaderDbHelper mDbHelper;
-    private RecyclerView mRecyclerView;
-    RecyclerView.Adapter mAdapter;
-    RecyclerView.LayoutManager mLayoutManager;
     private OnFragmentInteractionListener mListener;
 
     public static TaskHomeFragment newInstance(int section) {
@@ -123,53 +120,6 @@ public class TaskHomeFragment extends Fragment implements DatePickerDialog.OnDat
         ed_task_desp.setText(TaskHomeActivity.task.getTask_description());
         ed_due_date.setText(Utility.getDate(TaskHomeActivity.task.getDue_date()));
 
-
-        /*HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
-        mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
-
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        // TODO Handle item click
-                        Toast.makeText(getContext(), "this is my Toast message!!! =)",
-                                Toast.LENGTH_LONG).show();
-                    }
-                })
-        );
-
-
-
-        final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) HomeScreenLayout.findViewById(R.id.multiple_actions);
-        final FloatingActionButton actionA = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_a);
-        final FloatingActionButton actionB = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_b);
-        final FloatingActionButton actionC = (FloatingActionButton) HomeScreenLayout.findViewById(R.id.action_c);
-        actionA.setIcon(R.drawable.general_task);
-        actionB.setIcon(R.drawable.project_task);
-        actionC.setIcon(R.drawable.list_task);
-        actionA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mainIntent = new Intent(getContext(), AddTaskActivity.class);
-                getContext().startActivity(mainIntent);
-                menuMultipleActions.collapse();
-            }
-        });
-
-        *//*mDrawerRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });*//*
-        mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are of fixed size
-
-        mAdapter = new Card_Adapter(YourAssistApp.getAppInstance().getMyList(),getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
-        mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
-        mLayoutManager = new LinearLayoutManager(getActivity());                 // Creating a layout Manager
-
-        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
-*/
         return TaskDetailScreenLayout;
     }
 
@@ -227,6 +177,7 @@ public class TaskHomeFragment extends Fragment implements DatePickerDialog.OnDat
                 }
                 TaskHomeActivity.task.setPriority(prority_spinner.getSelectedItem().toString());
                 mDbHelper.updateTask(TaskHomeActivity.task);
+                Toast.makeText(getContext(), "Task upadated", Toast.LENGTH_LONG).show();
                 getActivity().onBackPressed();
         }
     }

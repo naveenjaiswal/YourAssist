@@ -75,7 +75,7 @@ public class SubTaskDashboard extends NavigationDrawer_Activity implements SubTa
         }*/
 
         if (id == R.id.action_example) {
-            Toast.makeText(getApplicationContext(),"Refreshing the list",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Refreshing SubTask list",Toast.LENGTH_LONG).show();
             SubTaskDashBoardFragment articleFrag = (SubTaskDashBoardFragment)
                     getSupportFragmentManager().findFragmentById(R.id.container);
             if (articleFrag != null) {

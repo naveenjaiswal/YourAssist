@@ -24,6 +24,25 @@ public class Task {
     private Date start_date;
     private Date due_date;
 
+    public int getTotal_number_of_subtask() {
+        return total_number_of_subtask;
+    }
+
+    public void setTotal_number_of_subtask(int total_number_of_subtask) {
+        this.total_number_of_subtask = total_number_of_subtask;
+    }
+
+    public int getComplete_subtask() {
+        return complete_subtask;
+    }
+
+    public void setComplete_subtask(int complete_subtask) {
+        this.complete_subtask = complete_subtask;
+    }
+
+    private int total_number_of_subtask;
+    private int complete_subtask;
+
     public Task(){
 
 

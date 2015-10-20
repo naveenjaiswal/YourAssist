@@ -11,6 +11,9 @@
     <color name="blue_grey_800">#37474F</color>
     <color name="priority_high">#D50000</color>
     <color name="priority_medium">#FFEB3B</color>
+    <color name="background_grey">#BDBDBD</color>
+    <color name="subtask_incomplete">#ef9a9a</color>
+    <color name="subtask_complete">#8bc34a</color>
     <color name="priority_low">#1B5E20</color>
     <color name="blue_grey_900">#263238</color>
     <color name="black_semi_transparent">#B2000000</color>

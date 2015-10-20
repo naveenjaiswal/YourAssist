@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.asifsheikh.yourassist.Adapter.Card_Adapter;
 import com.example.asifsheikh.yourassist.AddTaskActivity;
 import com.example.asifsheikh.yourassist.Database.FeedReaderDbHelper;
+import com.example.asifsheikh.yourassist.Database.FeedReaderSubTaskDbHelper;
 import com.example.asifsheikh.yourassist.R;
 import com.example.asifsheikh.yourassist.model.Task;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -44,6 +46,7 @@ public class HomeScreenFragment extends Fragment {
     RecyclerView.LayoutManager mLayoutManager;
     private List<Task> tasklist = new ArrayList<Task>();
     private FeedReaderDbHelper mDbHelper ;
+    private FeedReaderSubTaskDbHelper mDbSubtaskHelper;
     private RelativeLayout HomeScreenLayout;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -89,6 +92,7 @@ public class HomeScreenFragment extends Fragment {
         thiscontext = container.getContext();
 
         mDbHelper = new FeedReaderDbHelper(thiscontext);
+        mDbSubtaskHelper = new FeedReaderSubTaskDbHelper(thiscontext);
         HomeScreenLayout = (RelativeLayout) inflater.inflate(R.layout.activity_main, container, false);
         mRecyclerView = (RecyclerView) HomeScreenLayout.findViewById(R.id.CardRecyclerView);
         try {
@@ -137,7 +141,8 @@ public class HomeScreenFragment extends Fragment {
                                 for (int position : reverseSortedPositions) {
                                     Task t = tasklist.get(position);
                                     mDbHelper.delete(t.getTask_id());
-
+                                    mDbSubtaskHelper.delete_task_subtask(t.getTask_id());
+                                    Toast.makeText(getContext(), "Task Deleted..!!", Toast.LENGTH_LONG).show();
                                     refresh_task();
                                     /*YourAssistApp.getAppInstance().getMyList().remove(position);
                                     mAdapter.notifyItemRemoved(position);*/
@@ -151,8 +156,9 @@ public class HomeScreenFragment extends Fragment {
                                     /*YourAssistApp.getAppInstance().getMyList().remove(position);
                                     mAdapter.notifyItemRemoved(position);*/
                                     Task t = tasklist.get(position);
+                                    mDbSubtaskHelper.delete_task_subtask(t.getTask_id());
                                     mDbHelper.delete(t.getTask_id());
-
+                                    Toast.makeText(getContext(), "Task Deleted..!!", Toast.LENGTH_LONG).show();
                                     refresh_task();
                                 }
                                 //mAdapter.notifyDataSetChanged();
@@ -196,6 +202,10 @@ public class HomeScreenFragment extends Fragment {
         if(tasklist.size() == 0){
             mRecyclerView.setBackground(getResources().getDrawable(R.drawable.notasktodo));
 
+        }
+        else
+        {
+            mRecyclerView.setBackground(getResources().getDrawable(R.color.background_grey));
         }
         mAdapter = new Card_Adapter(tasklist,getActivity());      // Creating the Adapter of MyAdapter class(which we are going to see in a bit)
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
